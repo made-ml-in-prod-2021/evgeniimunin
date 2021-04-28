@@ -44,14 +44,14 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
     transformer.fit(train_df)
     train_features = process_features(transformer, train_df)
     train_target = extract_target(
-        train_df, training_pipeline_params.feature_params.target_col
+        train_df, training_pipeline_params.feature_params
     )
     logger.info(f"train_features.shape is  {train_features.shape}")
 
     # prepare val features
     val_features = process_features(transformer, val_df)
     val_target = extract_target(
-        val_df, training_pipeline_params.feature_params.target_col
+        val_df, training_pipeline_params.feature_params
     )
     logger.info(f"val_features.shape is  {val_features.shape}")
 

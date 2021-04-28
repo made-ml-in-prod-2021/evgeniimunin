@@ -43,11 +43,13 @@ def build_transformer(params: FeatureParams) -> ColumnTransformer:
 
 def process_categorical_features(df: pd.DataFrame) -> pd.DataFrame:
     categorical_pipeline = build_categorical_pipeline()
+    df.fillna('nan', inplace=True)
     return pd.DataFrame(categorical_pipeline.fit_transform(df).toarray())
 
 
 def process_numerical_features(df: pd.DataFrame) -> pd.DataFrame:
     numercial_pipeline = build_numerical_pipeline()
+    df.fillna(0, inplace=True)
     return pd.DataFrame(numercial_pipeline.fit_transform(df))
 
 
@@ -55,8 +57,8 @@ def process_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.Dat
     return pd.DataFrame(transformer.transform(df))
 
 
-def extract_target(df: pd.DataFrame, target_col: str) -> pd.Series:
-    return df[target_col]
+def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
+    return df[params.target_col]
 
 
 if __name__ == "__main__":
@@ -68,12 +70,16 @@ if __name__ == "__main__":
     num_cols = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
     target = "target"
 
-    transformer = build_transformer(df, cat_cols, target)
+    params = FeatureParams(
+        categorical_features=cat_cols,
+        numerical_features=num_cols,
+        target_col='target'
+    )
+    transformer = build_transformer(params)
+    transformer.fit(df)
+
     transdf = process_features(transformer, df)
     catdf = process_categorical_features(df[cat_cols])
-    # numdf = process_numerical_features(
-    #     df[df.columns[(~df.columns.isin(cat_cols)) & (df.columns != target)]]
-    # )
     numdf = process_numerical_features(
         df[num_cols]
     )
@@ -81,3 +87,4 @@ if __name__ == "__main__":
     logger.info(f"processed catdf.shape: {catdf.shape}")
     logger.info(f"processed numdf.shape: {numdf.shape}")
     logger.info(f"processed transdf.shape: {transdf.shape}")
+    logger.info(transdf.columns)
