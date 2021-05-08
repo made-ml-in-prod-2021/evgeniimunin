@@ -13,4 +13,4 @@ numpy==1.19.4
 scikit-learn==0.22.2.post1
 pandas==0.25.1
 pytest
-marshmallow
+marshmallow-dataclass
