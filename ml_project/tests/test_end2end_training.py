@@ -20,10 +20,12 @@ def test_train_e2e(
         target_col: str,
 ):
     expected_output_model_path = tmpdir.join('model.pkl')
+    expected_output_transformer_path = tmpdir.join('transformer.pkl')
     expected_metric_path = tmpdir.join('metrics.json')
     params = TrainingPipelineParams(
         input_data_path=dataset_path,
         output_model_path=expected_output_model_path,
+        output_transformer_path=expected_output_transformer_path,
         metric_path=expected_metric_path,
         splitting_params=SplittingParams(val_size=0.2, random_state=42),
         feature_params=FeatureParams(
@@ -33,7 +35,7 @@ def test_train_e2e(
         ),
         train_params=TrainingParams(model_type='RandomForestClassifier')
     )
-    real_model_path, metrics = train_pipeline(params)
+    real_model_path, real_transformer_path, metrics = train_pipeline(params)
     assert metrics['f1_score'] > 0
     assert os.path.exists(real_model_path)
     assert os.path.exists(params.metric_path)

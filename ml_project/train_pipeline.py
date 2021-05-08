@@ -2,8 +2,6 @@ import json
 import logging
 import sys
 
-import click
-
 from data.make_dataset import read_data, split_train_val_data
 
 from src.features.build_features import (
@@ -68,8 +66,9 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
 
     # serialize model
     path_to_model = serialize_model(model, training_pipeline_params.output_model_path)
+    path_to_transformer = serialize_model(transformer, training_pipeline_params.output_transformer_path)
 
-    return path_to_model, metrics
+    return path_to_model, path_to_transformer, metrics
 
 
 # @click.command(name='train_pipeline')

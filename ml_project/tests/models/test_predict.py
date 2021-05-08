@@ -7,8 +7,9 @@ from entities.feature_params import FeatureParams
 from entities.train_params import TrainingParams
 from src.features.build_features import process_features, extract_target, build_transformer
 from models.model_fit_predict import train_model
+from predict_pipeline import predict
 
-def test_predict(
+def test_fit_predict(
         dataset_path: str,
         categorical_features: List[str],
         numerical_features: List[str],
@@ -26,4 +27,11 @@ def test_predict(
     model = train_model(features, target, train_params=TrainingParams())
     preds = model.predict(features)
     assert len(preds) == len(features)
+    assert len(set(preds)) == 2
+
+
+def test_predict(dataset_path: str):
+    data = read_data(dataset_path)
+    preds = predict(data)
+    assert len(data) == len(preds)
     assert len(set(preds)) == 2
