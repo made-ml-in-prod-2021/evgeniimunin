@@ -78,5 +78,5 @@ def train_pipeline_command(config_path: str):
     train_pipeline(params)
 
 if __name__ == '__main__':
-    config_path = 'configs/train_config.yaml'
+    config_path = 'configs/train_config_lr.yaml'
     train_pipeline_command(config_path)

@@ -3,20 +3,15 @@ output_model_path: "models/model.pkl"
 output_transformer_path: "models/transformer.pkl"
 metric_path: "models/metrics.json"
 splitting_params:
-  val_size: 0.2
+  val_size: 0.5
   random_state: 42
 train_params:
   model_type: "LogisticRegression"
-  max_depth: 10
+  solver: 'saga'
+  C: 2.0
   random_state: 42
 feature_params:
   categorical_features:
-    - 'sex'
-    - 'cp'
-    - 'fbs'
-    - 'restecg'
-    - 'exang'
-    - 'slope'
     - 'thal'
   numerical_features:
     - 'age'
