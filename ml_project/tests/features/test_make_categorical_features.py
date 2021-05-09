@@ -35,11 +35,8 @@ def fake_categorical_data(
 
 def test_process_categorical_features(
         fake_categorical_data: pd.DataFrame,
-        categorical_feature: str,
-        categorical_values: List[str],
 ):
     logger.info(fake_categorical_data)
     transformed: pd.DataFrame = process_categorical_features(fake_categorical_data)
     logger.info(transformed)
-    # assert transformed.shape[1] == 3 # ???? how to process nans in cat features - need changes to process_categorical_features/ process_numerical_features
     assert transformed.sum().sum() == 4

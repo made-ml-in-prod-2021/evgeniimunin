@@ -41,6 +41,3 @@ def categorical_features() -> List[str]:
 def numerical_features() -> List[str]:
     return ["age", "trestbps", "chol", "thalach", "oldpeak", "ca"]
 
-
-# if __name__ == '__main__':
-#     dataset_path()

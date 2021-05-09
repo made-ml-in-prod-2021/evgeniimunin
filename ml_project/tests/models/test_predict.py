@@ -1,8 +1,6 @@
-from typing import Tuple, List
-import pandas as pd
+from typing import List
 
 from data.make_dataset import read_data
-from entities.train_params import TrainingParams
 from entities.feature_params import FeatureParams
 from entities.train_params import TrainingParams
 from src.features.build_features import process_features, extract_target, build_transformer

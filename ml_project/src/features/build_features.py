@@ -1,5 +1,4 @@
 import sys
-import numpy as np
 import pandas as pd
 import logging
 from sklearn.pipeline import Pipeline

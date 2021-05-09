@@ -1,9 +1,6 @@
 import os
 from typing import List
 from py._path.local import LocalPath
-import pytest
-import numpy as np
-import pandas as pd
 
 from train_pipeline import train_pipeline
 from entities.train_params import TrainingParams
