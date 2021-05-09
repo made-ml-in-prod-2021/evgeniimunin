@@ -31,7 +31,5 @@ def test_fit_predict(
 
 
 def test_predict(dataset_path: str):
-    data = read_data(dataset_path)
-    preds = predict(data)
-    assert len(data) == len(preds)
+    preds = predict(dataset_path)
     assert len(set(preds)) == 2

@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+import argparse
 
 from data.make_dataset import read_data, split_train_val_data
 
@@ -71,12 +72,12 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
     return path_to_model, path_to_transformer, metrics
 
 
-# @click.command(name='train_pipeline')
-# @click.argument('config_path')
 def train_pipeline_command(config_path: str):
     params = read_training_pipeline_params(config_path)
     train_pipeline(params)
 
 if __name__ == '__main__':
-    config_path = 'configs/train_config_lr.yaml'
-    train_pipeline_command(config_path)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--config", required=True, default='configs/train_config_lr.yaml')
+    args = parser.parse_args()
+    train_pipeline_command(args.config)

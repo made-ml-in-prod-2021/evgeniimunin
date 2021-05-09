@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import argparse
 
 
 def generate_dataset(size=200):
@@ -21,7 +22,10 @@ def generate_dataset(size=200):
     fake_data.to_csv('train_data_sample.csv', index=False)
 
 if __name__ == '__main__':
-    generate_dataset()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--size", required=True, default=200)
+    args = parser.parse_args()
+    generate_dataset(int(args.size))
 
 
 

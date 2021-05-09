@@ -59,32 +59,3 @@ def process_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.Dat
 
 def extract_target(df: pd.DataFrame, params: FeatureParams) -> pd.Series:
     return df[params.target_col]
-
-
-if __name__ == "__main__":
-    df = pd.read_csv("../../data/raw/heart.csv")
-    logger.info(f"init df: {df.info()}")
-    logger.info(f"init df.shape: {df.shape}")
-
-    cat_cols = ['sex', 'cp', 'fbs', 'restecg', 'exang', 'slope', 'thal']
-    num_cols = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca']
-    target = "target"
-
-    params = FeatureParams(
-        categorical_features=cat_cols,
-        numerical_features=num_cols,
-        target_col='target'
-    )
-    transformer = build_transformer(params)
-    transformer.fit(df)
-
-    transdf = process_features(transformer, df)
-    catdf = process_categorical_features(df[cat_cols])
-    numdf = process_numerical_features(
-        df[num_cols]
-    )
-
-    logger.info(f"processed catdf.shape: {catdf.shape}")
-    logger.info(f"processed numdf.shape: {numdf.shape}")
-    logger.info(f"processed transdf.shape: {transdf.shape}")
-    logger.info(transdf.columns)
