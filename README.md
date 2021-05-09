@@ -1,6 +1,10 @@
 ![CI workflow](https://github.com/made-ml-in-prod-2021/evgeniimunin/actions/workflows/homework1.yml/badge.svg?branch=homework1)
 
 # Production-ready ML project
+
+## Data
+The data is taken from: https://www.kaggle.com/ronitf/heart-disease-uci.
+
 ## Install
 First clone the directory, create the venv and install the required packages in the root directory of `ml_project`
 ```
