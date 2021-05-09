@@ -13,15 +13,15 @@ from entities.feature_params import FeatureParams
 
 
 def test_train_e2e(
-        tmpdir: LocalPath,
-        dataset_path: str,
-        categorical_features: List[str],
-        numerical_features: List[str],
-        target_col: str,
+    tmpdir: LocalPath,
+    dataset_path: str,
+    categorical_features: List[str],
+    numerical_features: List[str],
+    target_col: str,
 ):
-    expected_output_model_path = tmpdir.join('model.pkl')
-    expected_output_transformer_path = tmpdir.join('transformer.pkl')
-    expected_metric_path = tmpdir.join('metrics.json')
+    expected_output_model_path = tmpdir.join("model.pkl")
+    expected_output_transformer_path = tmpdir.join("transformer.pkl")
+    expected_metric_path = tmpdir.join("metrics.json")
     params = TrainingPipelineParams(
         input_data_path=dataset_path,
         output_model_path=expected_output_model_path,
@@ -33,9 +33,9 @@ def test_train_e2e(
             categorical_features=categorical_features,
             target_col=target_col,
         ),
-        train_params=TrainingParams(model_type='RandomForestClassifier')
+        train_params=TrainingParams(model_type="RandomForestClassifier"),
     )
     real_model_path, real_transformer_path, metrics = train_pipeline(params)
-    assert metrics['f1_score'] > 0
+    assert metrics["f1_score"] > 0
     assert os.path.exists(real_model_path)
     assert os.path.exists(params.metric_path)

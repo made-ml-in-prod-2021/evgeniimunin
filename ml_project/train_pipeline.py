@@ -42,16 +42,12 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
     transformer = build_transformer(training_pipeline_params.feature_params)
     transformer.fit(train_df)
     train_features = process_features(transformer, train_df)
-    train_target = extract_target(
-        train_df, training_pipeline_params.feature_params
-    )
+    train_target = extract_target(train_df, training_pipeline_params.feature_params)
     logger.info(f"train_features.shape is  {train_features.shape}")
 
     # prepare val features
     val_features = process_features(transformer, val_df)
-    val_target = extract_target(
-        val_df, training_pipeline_params.feature_params
-    )
+    val_target = extract_target(val_df, training_pipeline_params.feature_params)
     logger.info(f"val_features.shape is  {val_features.shape}")
 
     model = train_model(
@@ -61,13 +57,15 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
     metrics = evaluate_model(preds, val_target)
 
     # dump metrics to json
-    with open(training_pipeline_params.metric_path, 'w') as metric_file:
+    with open(training_pipeline_params.metric_path, "w") as metric_file:
         json.dump(metrics, metric_file)
-    logger.info(f'Metric is {metrics}')
+    logger.info(f"Metric is {metrics}")
 
     # serialize model
     path_to_model = serialize_model(model, training_pipeline_params.output_model_path)
-    path_to_transformer = serialize_model(transformer, training_pipeline_params.output_transformer_path)
+    path_to_transformer = serialize_model(
+        transformer, training_pipeline_params.output_transformer_path
+    )
 
     return path_to_model, path_to_transformer, metrics
 
@@ -76,8 +74,11 @@ def train_pipeline_command(config_path: str):
     params = read_training_pipeline_params(config_path)
     train_pipeline(params)
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--config", required=True, default='configs/train_config_lr.yaml')
+    parser.add_argument(
+        "--config", required=True, default="configs/train_config_lr.yaml"
+    )
     args = parser.parse_args()
     train_pipeline_command(args.config)

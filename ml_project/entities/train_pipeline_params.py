@@ -21,19 +21,20 @@ class TrainingPipelineParams:
     splitting_params: SplittingParams
     feature_params: FeatureParams
     train_params: TrainingParams
-    input_data_path: str = field(default='../data/raw/heart.csv')
+    input_data_path: str = field(default="../data/raw/heart.csv")
 
 
 TrainingPipelineParamsSchema = class_schema(TrainingPipelineParams)
 
 
 def read_training_pipeline_params(path: str) -> TrainingPipelineParams:
-    with open(path, 'r') as input_stream:
+    with open(path, "r") as input_stream:
         config_dict = yaml.safe_load(input_stream)
         schema = TrainingPipelineParamsSchema().load(config_dict)
-        logger.info(f'Check schema: {schema}')
+        logger.info(f"Check schema: {schema}")
         return schema
 
-if __name__ == '__main__':
-    path = '../configs/train_config.yaml'
+
+if __name__ == "__main__":
+    path = "../configs/train_config.yaml"
     read_training_pipeline_params(path)
