@@ -1,16 +1,23 @@
-from dataclasses import dataclass, field
-from entities.split_params import SplittingParams
-from entities.feature_params import FeatureParams
-from entities.train_params import TrainingParams
-from marshmallow_dataclass import class_schema
 import yaml
 import logging
 import sys
+
+from dataclasses import dataclass, field
+from marshmallow_dataclass import class_schema
+
+from entities.split_params import SplittingParams
+from entities.feature_params import FeatureParams
+from entities.train_params import TrainingParams
+
+
 
 logger = logging.getLogger(__name__)
 handler = logging.StreamHandler(sys.stdout)
 logger.setLevel(logging.INFO)
 logger.addHandler(handler)
+
+
+PATH = "../configs/train_config.yaml"
 
 
 @dataclass()
@@ -31,10 +38,9 @@ def read_training_pipeline_params(path: str) -> TrainingPipelineParams:
     with open(path, "r") as input_stream:
         config_dict = yaml.safe_load(input_stream)
         schema = TrainingPipelineParamsSchema().load(config_dict)
-        logger.info(f"Check schema: {schema}")
+        logger.info("Check schema: %s", schema)
         return schema
 
 
 if __name__ == "__main__":
-    path = "../configs/train_config.yaml"
-    read_training_pipeline_params(path)
+    read_training_pipeline_params(PATH)

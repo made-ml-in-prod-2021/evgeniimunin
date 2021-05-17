@@ -11,4 +11,4 @@ class TrainingParams:
 
     # LR params
     solver: str = field(default="lbfgs")
-    C: float = field(default=1.0)
+    reg_coeff: float = field(default=1.0)

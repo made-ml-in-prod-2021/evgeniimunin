@@ -14,6 +14,8 @@ SklearnClassifier = Union[RandomForestClassifier, LogisticRegression]
 def train_model(
     features: pd.DataFrame, target: pd.Series, train_params: TrainingParams
 ) -> SklearnClassifier:
+    """Train and save model from configs"""
+
     if train_params.model_type == "RandomForestClassifier":
         model = RandomForestClassifier(
             max_depth=train_params.max_depth, random_state=train_params.random_state
@@ -29,10 +31,12 @@ def train_model(
 
 
 def predict_model(model: RandomForestClassifier, features: pd.DataFrame) -> np.ndarray:
+    """Predict model from configs"""
     return model.predict(features)
 
 
 def evaluate_model(predicts: np.ndarray, target: pd.Series) -> Dict[str, float]:
+    """Evaluate model from configs"""
     return {
         "f1_score": f1_score(target, predicts, average="weighted"),
         "acc_score": accuracy_score(target, predicts),
@@ -40,6 +44,7 @@ def evaluate_model(predicts: np.ndarray, target: pd.Series) -> Dict[str, float]:
 
 
 def serialize_model(model: RandomForestClassifier, output: str) -> str:
-    with open(output, "wb") as f:
-        joblib.dump(model, f)
+    """Serialize model from configs"""
+    with open(output, "wb") as file:
+        joblib.dump(model, file)
     return output

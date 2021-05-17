@@ -3,7 +3,7 @@ import pandas as pd
 import pytest
 from numpy.testing import assert_allclose
 
-from data.make_dataset import read_data
+from make_dataset import read_data
 from entities.feature_params import FeatureParams
 from src.features.build_features import process_features, extract_target, build_transformer
 

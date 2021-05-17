@@ -3,7 +3,7 @@ import logging
 import sys
 import argparse
 
-from data.make_dataset import read_data, split_train_val_data
+from make_dataset import read_data, split_train_val_data
 
 from src.features.build_features import (
     process_features,

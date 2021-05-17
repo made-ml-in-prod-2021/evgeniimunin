@@ -7,7 +7,7 @@ import pytest
 from py._path.local import LocalPath
 from sklearn.ensemble import RandomForestClassifier
 
-from data.make_dataset import read_data
+from make_dataset import read_data
 from entities.train_params import TrainingParams
 from entities.feature_params import FeatureParams
 from src.features.build_features import process_features, extract_target, build_transformer
