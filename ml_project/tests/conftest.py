@@ -12,11 +12,13 @@ logger.setLevel(logging.INFO)
 logger.addHandler(handler)
 
 
+NB_COLS = 26
+
+
 @pytest.fixture()
 def make_fake_dataset():
-    nb_cols = 26
     nb_rows = np.random.randint(10, 500)
-    fake_data = pd.DataFrame(np.random.normal(size=(nb_rows, nb_cols)))
+    fake_data = pd.DataFrame(np.random.normal(size=(nb_rows, NB_COLS)))
     fake_data.to_csv("train_data_sample.csv", index=False)
 
 

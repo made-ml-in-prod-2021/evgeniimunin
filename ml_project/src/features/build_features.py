@@ -40,16 +40,16 @@ def build_transformer(params: FeatureParams) -> ColumnTransformer:
     return transformer
 
 
-def process_categorical_features(df: pd.DataFrame) -> pd.DataFrame:
+def process_categorical_features(categorical_df: pd.DataFrame) -> pd.DataFrame:
     categorical_pipeline = build_categorical_pipeline()
-    df.fillna('nan', inplace=True)
-    return pd.DataFrame(categorical_pipeline.fit_transform(df).toarray())
+    categorical_df.fillna('nan', inplace=True)
+    return pd.DataFrame(categorical_pipeline.fit_transform(categorical_df).toarray())
 
 
-def process_numerical_features(df: pd.DataFrame) -> pd.DataFrame:
+def process_numerical_features(numerical_df: pd.DataFrame) -> pd.DataFrame:
     numercial_pipeline = build_numerical_pipeline()
-    df.fillna(0, inplace=True)
-    return pd.DataFrame(numercial_pipeline.fit_transform(df))
+    numerical_df.fillna(0, inplace=True)
+    return pd.DataFrame(numercial_pipeline.fit_transform(numerical_df))
 
 
 def process_features(transformer: ColumnTransformer, df: pd.DataFrame) -> pd.DataFrame:

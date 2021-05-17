@@ -24,7 +24,7 @@ def predict(
 
     model = joblib.load(model_path)
     preds = pd.Series(model.predict(features))
-    logger.info(f"preds shape: {preds.shape}")
+    logger.debug(f"preds shape: {preds.shape}")
     preds.to_csv("data/preds.csv")
 
     return preds

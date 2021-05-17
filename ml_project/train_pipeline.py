@@ -40,6 +40,7 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
 
     # prepare train features
     transformer = build_transformer(training_pipeline_params.feature_params)
+    logger.debug(f"check transformer  {transformer}")
     transformer.fit(train_df)
     train_features = process_features(transformer, train_df)
     train_target = extract_target(train_df, training_pipeline_params.feature_params)
@@ -55,6 +56,7 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
     )
     preds = predict_model(model, val_features)
     metrics = evaluate_model(preds, val_target)
+    logger.debug(f"preds/ targets shapes:  {(preds.shape, val_target.shape)}")
 
     # dump metrics to json
     with open(training_pipeline_params.metric_path, "w") as metric_file:
