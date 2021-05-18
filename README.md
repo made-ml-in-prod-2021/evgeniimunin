@@ -1,5 +1,3 @@
-![CI workflow](https://github.com/made-ml-in-prod-2021/evgeniimunin/actions/workflows/homework1.yml/badge.svg?branch=homework1)
-
 # Production-ready ML project
 
 ## Data
@@ -13,56 +11,43 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-## Train
-To train the model you need to choose the config `.yaml` file in the `configs` directory defining the model, train parameters, splitting strategy and the feature set:
+## Docker
+Build docker:
 ```
-python train_pipeline.py --config configs/train_config_lr.yaml
-```
-After the train procedure the saved model and transformer are available in `models`directory.
-
-
-## Test
-To generate the fake data for unit-tests use the following command:
-```
-python tests/create_fake_dataset.py --size=200
+docker build -t evgeniimunin/online_inference:v1 .
 ```
 
-To test the current config of the model:
+Run docker. Launch server:
 ```
-pytest --cov
+docker run -p 8000:8000 evgeniimunin/online_inference:v1
 ```
 
-## Predict
-Provide the path to the prediction dataset and the paths to the trained model and transformer. For example:
+Test running application. Client request:
 ```
-python predict_pipeline.py --data data/raw/heart.csv --model models/model.pkl --transformer models/transformer.pkl
+python -m src.make_request
 ```
-The predictions made will be saved in `data` directory.
 
-## EDA
-EDA is available in the Jupyter Notebook `notebooks/eda.ipynb`
+Push/ Pull docker image from Docker Hub:
+```
+docker push evgeniimunin/online_inference:v1
+docker pull evgeniimunin/online_inference:v1
+```
 
 ## Roadmap
 № | Описание | Баллы
 --- | --- | ---
--2 | ~~Назовите ветку homework1~~ | 1
--1 | ~~Положите код в папку ml_project~~ | -
-0 | ~~В описании к пулл реквесту описаны основные &quot;архитектурные&quot; и тактические решения, которые сделаны в вашей работе.~~ | 3
-1 | ~~Выполнение EDA, закоммитьте ноутбук в папку с ноутбуками~~ | 3
-2 | ~~Проект имеет модульную структуру(не все в одном файле =) )~~ | 3
-3 | ~~Использованы логгеры~~ | 2
-4 | ~~Написаны тесты на отдельные модули и на прогон всего пайплайна~~ | 5
-5 | ~~Для тестов генерируются синтетические данные, приближенные к реальным~~ | 5
-6 | ~~Обучение модели конфигурируется с помощью конфигов в json или yaml, закоммитьте как минимум 2 корректные конфигурации, с помощью которых можно обучить модель (разные модели, стратегии split, preprocessing)~~ | 2
-7 | ~~Используются датаклассы для сущностей из конфига, а не голые dict~~ | 3
-8 | ~~Используйте кастомный трансформер(написанный своими руками) и протестируйте его~~ | 3
-9 | ~~Обучите модель, запишите в readme как это предлагается~~ | 3
-10 | ~~Напишите функцию predict, которая примет на вход артефакт/ы от обучения, тестовую выборку(без меток) и запишет предикт, напишите в readme как это сделать~~ | 3
-11 | Используется hydra  (https://hydra.cc/docs/intro/) | 3 (доп баллы)
-12 | ~~Настроен CI(прогон тестов, линтера) на основе github actions~~  | 3 балла (доп баллы)
-13 | ~~Проведите самооценку, опишите, в какое колво баллов по вашему мнению стоит оценить вашу работу и почему~~ | 1 (доп баллы)
+0 | ~~Ветку назовите homework2, положите код в папку online_inference~~ | -
+1 | ~~Оберните inference вашей модели в rest сервис(вы можете использовать как FastAPI, так и flask, другие желательно не использовать, дабы не плодить излишнего разнообразия для проверяющих), должен быть endpoint /predict~~ | 3
+2 | ~~Напишите тест для /predict~~ | 3
+3 | ~~Напишите скрипт, который будет делать запросы к вашему сервису~~ | 2
+4 | ~~Сделайте валидацию входных данных (например, порядок колонок не совпадает с трейном, типы не те и пр, в рамках вашей фантазии)~~ | 3
+5 | ~~Напишите dockerfile, соберите на его основе образ и запустите локально контейнер(docker build, docker run), внутри контейнера должен запускать сервис, написанный в предущем пункте, закоммитьте его, напишите в readme корректную команду сборки~~ | 4
+6 | Оптимизируйте размер docker image(опишите в readme.md что вы предприняли для сокращения размера и каких результатов удалось добиться) | 3
+7 | ~~Опубликуйте образ в https://hub.docker.com/, используя docker push~~ | 2
+8 | ~~Напишите в readme корректные команды docker pull/run, которые должны привести к тому, что локально поднимется на inference ваша модель~~ | 3
+9 | ~~Проведите самооценку~~ | 1
 
-Самооценка: считаю, что выполнил задание на 37/40 баллов, поскольку осталось прописать использование hydra.
+Самооценка: считаю, что выполнил задание на 21/23 баллов, поскольку необходимо соптимизировать Docker образ, который в даннй момент весит 1,2 ГБ.
 
 
 
