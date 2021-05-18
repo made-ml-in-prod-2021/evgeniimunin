@@ -4,7 +4,7 @@
 The data is taken from: https://www.kaggle.com/ronitf/heart-disease-uci.
 
 ## Install
-First clone the directory, create the venv and install the required packages in the root directory of `ml_project`
+First clone the directory, create the venv and install the required packages in the root directory of `online_inference`
 ```
 virtualend venv
 source .venv/bin/activate
