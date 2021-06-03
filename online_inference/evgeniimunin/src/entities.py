@@ -22,9 +22,6 @@ FEATURES_MODELS = [
     "id",
 ]
 
-# FEATURES_MODELS = ['age', 'trestbps', 'chol', 'thalach', 'oldpeak', 'ca', 'thal', 'id']
-
-
 class DiagnosisRequest(BaseModel):
     data: List[conlist(Union[float, str], min_items=1, max_items=20)]
     features: List[str]
