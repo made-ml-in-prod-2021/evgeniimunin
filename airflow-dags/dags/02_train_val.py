@@ -1,20 +1,35 @@
-import os
-import json
-import pathlib
-import pandas as pd
-import numpy as np
-
 import airflow
 from airflow import DAG
 
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.docker_operator import DockerOperator
+from airflow.sensors.filesystem import FileSensor
+from airflow.operators.bash import BashOperator
+from airflow.providers.docker.operators.docker import DockerOperator
+
+
+RAW_DATA_PATH = "data/raw/data.csv"
+RAW_TARGET_PATH = "data/raw/target.csv"
+
 
 with DAG(
-    dag_id="generate_train_val",
+    dag_id="hw3_train_val",
     start_date=airflow.utils.dates.days_ago(21),
     schedule_interval="@weekly",
 ) as dag:
+    wait_for_features = FileSensor(
+
+        task_id="wait-for-features",
+        poke_interval=5,
+        retries=5,
+        filepath=RAW_DATA_PATH
+    )
+
+    wait_for_target = FileSensor(
+        task_id="wait-for-target",
+        poke_interval=5,
+        retries=5,
+        filepath=RAW_TARGET_PATH
+    )
+
     preprocess = DockerOperator(
         image="airflow-preprocess",
         # command="--output-dir /data/raw/{{ ds }}",
@@ -56,4 +71,4 @@ with DAG(
         bash_command=f'echo "Model train and validated ... "',
     )
 
-    preprocess >> split >> train >> val >> notify
+    [wait_for_features, wait_for_target] >> preprocess >> split >> train >> val >> notify

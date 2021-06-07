@@ -24,7 +24,7 @@ def train(input_dir: str, output_dir: str):
     clf = LogisticRegression()
     clf.fit(feats, target)
 
-    path_to_model = serialize_model(clf, os.path.join(output_dir, "model.clf"))
+    path_to_model = serialize_model(clf, os.path.join(output_dir, "model.pkl"))
 
 
 if __name__ == "__main__":

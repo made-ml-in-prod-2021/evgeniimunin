@@ -1,27 +1,14 @@
-import os
-import json
-import pathlib
-import pandas as pd
-import numpy as np
-
 import airflow
-import requests
-import requests.exceptions as requests_exceptions
 from airflow import DAG
-# from airflow.operators.bash import BashOperator
-# from airflow.operators.python import PythonOperator
-# from airflow.providers.docker.operators.docker import DockerOperator
-# from airflow_docker.operator import Operator
-
-from airflow.operators.bash_operator import BashOperator
-from airflow.operators.docker_operator import DockerOperator
+from airflow.operators.bash import BashOperator
+from airflow.providers.docker.operators.docker import DockerOperator
 
 
 SIZE = 10
 OUTPUT_DIR = 'data/raw/'
 
 with DAG(
-    dag_id="generate_fake_data",
+    dag_id="hw3_generate_fake_data",
     start_date=airflow.utils.dates.days_ago(5),
     schedule_interval="@daily",
 ) as dag:

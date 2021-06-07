@@ -24,7 +24,7 @@ def val(input_dir: str, model_dir: str):
     feats = df.drop(['target'], axis=1)
     target = df['target']
 
-    clf = joblib.load(os.path.join(model_dir, "model.clf"))
+    clf = joblib.load(os.path.join(model_dir, "model.pkl"))
     preds = clf.predict(feats)
 
     metrics = evaluate_model(preds, target)
