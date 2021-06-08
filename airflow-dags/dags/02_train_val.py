@@ -1,6 +1,7 @@
+import os
+
 import airflow
 from airflow import DAG
-
 from airflow.sensors.filesystem import FileSensor
 from airflow.operators.bash import BashOperator
 from airflow.providers.docker.operators.docker import DockerOperator
@@ -16,7 +17,6 @@ with DAG(
     schedule_interval="@weekly",
 ) as dag:
     wait_for_features = FileSensor(
-
         task_id="wait-for-features",
         poke_interval=5,
         retries=5,
@@ -35,8 +35,7 @@ with DAG(
         # command="--output-dir /data/raw/{{ ds }}",
         task_id="preprocess",
         do_xcom_push=False,
-        volumes=[
-            "/home/evgenii/Documents/05_Study/08_MADE_MailGroup_2020/sem2_MLProd/repo/evgeniimunin/airflow-dags/data:/data"]
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
     )
 
     split = DockerOperator(
@@ -44,8 +43,7 @@ with DAG(
         # command="--output-dir /data/raw/{{ ds }}",
         task_id="split",
         do_xcom_push=False,
-        volumes=[
-            "/home/evgenii/Documents/05_Study/08_MADE_MailGroup_2020/sem2_MLProd/repo/evgeniimunin/airflow-dags/data:/data"]
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
     )
 
     train = DockerOperator(
@@ -53,8 +51,7 @@ with DAG(
         # command="--output-dir /data/raw/{{ ds }}",
         task_id="train",
         do_xcom_push=False,
-        volumes=[
-            "/home/evgenii/Documents/05_Study/08_MADE_MailGroup_2020/sem2_MLProd/repo/evgeniimunin/airflow-dags/data:/data"]
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
     )
 
     val = DockerOperator(
@@ -62,8 +59,7 @@ with DAG(
         # command="--output-dir /data/raw/{{ ds }}",
         task_id="val",
         do_xcom_push=False,
-        volumes=[
-            "/home/evgenii/Documents/05_Study/08_MADE_MailGroup_2020/sem2_MLProd/repo/evgeniimunin/airflow-dags/data:/data"]
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
     )
 
     notify = BashOperator(

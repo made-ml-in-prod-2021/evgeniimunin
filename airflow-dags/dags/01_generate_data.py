@@ -1,3 +1,5 @@
+import os
+
 import airflow
 from airflow import DAG
 from airflow.operators.bash import BashOperator
@@ -18,7 +20,7 @@ with DAG(
         # command="--output-dir /data/raw/{{ ds }}",
         task_id="get_data",
         do_xcom_push=False,
-        volumes=["/home/evgenii/Documents/05_Study/08_MADE_MailGroup_2020/sem2_MLProd/repo/evgeniimunin/airflow-dags/data:/data"]
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
     )
 
     notify = BashOperator(
