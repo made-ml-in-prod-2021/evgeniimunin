@@ -5,6 +5,7 @@ from airflow.models import DagBag
 
 sys.path.append("dags")
 
+
 @pytest.fixture()
 def dag_bag():
     os.environ["DATA_VOLUME_PATH"] = "/tmp"
@@ -21,10 +22,7 @@ def test_train_val_imports(dag_bag):
 def test_generate_data_dag(dag_bag):
     dag = dag_bag.dags["hw3_generate_fake_data"]
 
-    dag_flow = {
-        "get_data": ["notify"],
-        "notify": []
-    }
+    dag_flow = {"get_data": ["notify"], "notify": []}
 
     for name, task in dag.task_dict.items():
         assert task.downstream_task_ids == set(dag_flow[name])
@@ -40,7 +38,7 @@ def test_train_val_dag(dag_bag):
         "split": ["train"],
         "train": ["val"],
         "val": ["notify"],
-        "notify": []
+        "notify": [],
     }
 
     for name, task in dag.task_dict.items():

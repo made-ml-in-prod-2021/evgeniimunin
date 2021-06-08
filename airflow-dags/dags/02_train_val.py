@@ -17,49 +17,39 @@ with DAG(
     schedule_interval="@weekly",
 ) as dag:
     wait_for_features = FileSensor(
-        task_id="wait-for-features",
-        poke_interval=5,
-        retries=5,
-        filepath=RAW_DATA_PATH
+        task_id="wait-for-features", poke_interval=5, retries=5, filepath=RAW_DATA_PATH
     )
 
     wait_for_target = FileSensor(
-        task_id="wait-for-target",
-        poke_interval=5,
-        retries=5,
-        filepath=RAW_TARGET_PATH
+        task_id="wait-for-target", poke_interval=5, retries=5, filepath=RAW_TARGET_PATH
     )
 
     preprocess = DockerOperator(
         image="airflow-preprocess",
-        # command="--output-dir /data/raw/{{ ds }}",
         task_id="preprocess",
         do_xcom_push=False,
-        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
     )
 
     split = DockerOperator(
         image="airflow-split",
-        # command="--output-dir /data/raw/{{ ds }}",
         task_id="split",
         do_xcom_push=False,
-        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
     )
 
     train = DockerOperator(
         image="airflow-train",
-        # command="--output-dir /data/raw/{{ ds }}",
         task_id="train",
         do_xcom_push=False,
-        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
     )
 
     val = DockerOperator(
         image="airflow-val",
-        # command="--output-dir /data/raw/{{ ds }}",
         task_id="val",
         do_xcom_push=False,
-        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
+        volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
     )
 
     notify = BashOperator(
@@ -67,4 +57,11 @@ with DAG(
         bash_command=f'echo "Model train and validated ... "',
     )
 
-    [wait_for_features, wait_for_target] >> preprocess >> split >> train >> val >> notify
+    (
+        [wait_for_features, wait_for_target]
+        >> preprocess
+        >> split
+        >> train
+        >> val
+        >> notify
+    )
