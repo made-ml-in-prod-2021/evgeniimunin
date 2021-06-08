@@ -34,7 +34,6 @@ with DAG(
 
     predict = DockerOperator(
         image="airflow-predict",
-        # command="--output-dir /data/raw/{{ ds }}",
         task_id="predict",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data']
