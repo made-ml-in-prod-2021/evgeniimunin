@@ -7,6 +7,7 @@ from airflow.providers.docker.operators.docker import DockerOperator
 
 
 MODEL_PATH = "data/models/{{ ds }}/model.pkl"
+SCALER_PATH = "data/models/{{ ds }}/scaler.pkl"
 RAW_DATA_PATH = "data/raw/{{ ds }}/data.csv"
 
 
@@ -26,7 +27,7 @@ with DAG(
 
     predict = DockerOperator(
         image="airflow-predict",
-        command="--input_dir data/raw/{{ ds }} --model_dir data/models/{{ ds }} --output_dir data/predictions/{{ ds }}",
+        command="--input_dir data/raw/{{ ds }} --model_dir data/models/{{ ds }} --scaler_dir data/models/{{ ds }} --output_dir data/predictions/{{ ds }}",
         task_id="predict",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],

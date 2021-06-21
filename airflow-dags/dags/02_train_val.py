@@ -26,7 +26,7 @@ with DAG(
 
     preprocess = DockerOperator(
         image="airflow-preprocess",
-        command="--input_dir data/raw/{{ ds }} --output_dir data/processed/{{ ds }}",
+        command="--input_dir data/raw/{{ ds }} --output_dir data/processed/{{ ds }} --model_dir data/models/{{ ds }}",
         task_id="preprocess",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
