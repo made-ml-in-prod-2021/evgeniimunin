@@ -6,7 +6,7 @@ Use Docker to run Airflow. Ensure that your Airflow version is at least ```2.0.1
 
 If you run for the first time, initialize Airflow database:
 ```
-docker-compose up airflow-init
+docker-compose up init
 ```
 
 To build necessary docker images and run Airflow use the following command:
