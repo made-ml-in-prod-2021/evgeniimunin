@@ -20,7 +20,7 @@ def evaluate_model(predicts: np.ndarray, target: pd.Series) -> Dict[str, float]:
 @click.argument("input_dir")
 @click.argument("model_dir")
 def val(input_dir: str, model_dir: str):
-    df = pd.read_csv(os.path.join(input_dir, "train.csv"))
+    df = pd.read_csv(os.path.join(input_dir, "test.csv"))
     feats = df.drop(['target'], axis=1)
     target = df['target']
 
