@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY predict.py /predict.py
 
-ENTRYPOINT ["python", "predict.py", "data/raw/", "data/models/", "data/predictions/"]
+ENTRYPOINT ["python", "predict.py"]
