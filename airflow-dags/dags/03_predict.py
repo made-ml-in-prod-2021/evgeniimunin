@@ -6,8 +6,8 @@ from airflow.sensors.filesystem import FileSensor
 from airflow.providers.docker.operators.docker import DockerOperator
 
 
-MODEL_PATH = "data/models/model.pkl"
-RAW_DATA_PATH = "data/raw/data.csv"
+MODEL_PATH = "data/models/{{ ds }}/model.pkl"
+RAW_DATA_PATH = "data/raw/{{ ds }}/data.csv"
 
 
 with DAG(

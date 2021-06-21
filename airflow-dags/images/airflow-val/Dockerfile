@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY val.py /val.py
 
-ENTRYPOINT ["python", "val.py", "data/processed/", "data/models/"]
+ENTRYPOINT ["python", "val.py"]

@@ -7,8 +7,8 @@ from airflow.operators.bash import BashOperator
 from airflow.providers.docker.operators.docker import DockerOperator
 
 
-RAW_DATA_PATH = "data/raw/data.csv"
-RAW_TARGET_PATH = "data/raw/target.csv"
+RAW_DATA_PATH = "data/raw/{{ ds }}/data.csv"
+RAW_TARGET_PATH = "data/raw/{{ ds }}/target.csv"
 
 
 with DAG(
@@ -26,6 +26,7 @@ with DAG(
 
     preprocess = DockerOperator(
         image="airflow-preprocess",
+        command="--input_dir data/raw/{{ ds }} --output_dir data/processed/{{ ds }}",
         task_id="preprocess",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
@@ -33,6 +34,7 @@ with DAG(
 
     split = DockerOperator(
         image="airflow-split",
+        command="--input_dir data/processed/{{ ds }} --output_dir data/processed/{{ ds }} --test_size 0.2",
         task_id="split",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
@@ -40,6 +42,7 @@ with DAG(
 
     train = DockerOperator(
         image="airflow-train",
+        command="--input_dir data/processed/{{ ds }} --output_dir data/models/{{ ds }}",
         task_id="train",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],
@@ -47,6 +50,7 @@ with DAG(
 
     val = DockerOperator(
         image="airflow-val",
+        command="--input_dir data/processed/{{ ds }} --output_dir data/models/{{ ds }}",
         task_id="val",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],

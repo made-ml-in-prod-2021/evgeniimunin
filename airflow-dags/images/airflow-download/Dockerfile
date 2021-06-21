@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY download.py /download.py
 
-ENTRYPOINT ["python", "download.py", "data/raw/"]
+ENTRYPOINT ["python", "download.py"]

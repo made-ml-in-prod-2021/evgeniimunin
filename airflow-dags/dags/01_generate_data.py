@@ -7,7 +7,6 @@ from airflow.providers.docker.operators.docker import DockerOperator
 
 
 SIZE = 10
-OUTPUT_DIR = "data/raw/"
 
 with DAG(
     dag_id="hw3_generate_fake_data",
@@ -17,6 +16,7 @@ with DAG(
 
     get_data = DockerOperator(
         image="airflow-download",
+        command="--output_dir data/raw/{{ ds }}",
         task_id="get_data",
         do_xcom_push=False,
         volumes=[f'{os.environ["DATA_VOLUME_PATH"]}:/data'],

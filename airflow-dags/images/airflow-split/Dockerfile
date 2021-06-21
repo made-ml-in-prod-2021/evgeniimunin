@@ -5,4 +5,4 @@ RUN pip install -r requirements.txt
 
 COPY split.py /split.py
 
-ENTRYPOINT ["python", "split.py", "data/processed/", "data/processed/", "0.2"]
+ENTRYPOINT ["python", "split.py"]
