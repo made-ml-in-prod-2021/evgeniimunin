@@ -4,11 +4,7 @@ import airflow
 from airflow import DAG
 from airflow.sensors.filesystem import FileSensor
 from airflow.providers.docker.operators.docker import DockerOperator
-
-
-MODEL_PATH = "data/models/{{ ds }}/model.pkl"
-SCALER_PATH = "data/models/{{ ds }}/scaler.pkl"
-RAW_DATA_PATH = "data/raw/{{ ds }}/data.csv"
+from constants import RAW_DATA_PATH, MODEL_PATH
 
 
 with DAG(

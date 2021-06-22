@@ -5,10 +5,7 @@ from airflow import DAG
 from airflow.sensors.filesystem import FileSensor
 from airflow.operators.bash import BashOperator
 from airflow.providers.docker.operators.docker import DockerOperator
-
-
-RAW_DATA_PATH = "data/raw/{{ ds }}/data.csv"
-RAW_TARGET_PATH = "data/raw/{{ ds }}/target.csv"
+from constants import RAW_DATA_PATH, RAW_TARGET_PATH
 
 
 with DAG(
@@ -17,7 +14,8 @@ with DAG(
     schedule_interval="@weekly",
 ) as dag:
     wait_for_features = FileSensor(
-        task_id="wait-for-features", poke_interval=5, retries=5, filepath=RAW_DATA_PATH
+        task_id="wait-for-features", poke_interval=5, retries=5,
+        filepath=RAW_DATA_PATH
     )
 
     wait_for_target = FileSensor(
